@@ -5,6 +5,9 @@
 *~
 *.db
 
+# Cache
+__pycache__
+
 # Unit test / coverage reports
 .coverage
 .tox
