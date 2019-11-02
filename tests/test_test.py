@@ -1,7 +1,5 @@
 import pytest
 
-import wils
-
 
 @pytest.mark.parametrize(('a', 'b', 'output'), (
         (0, 1, 1),
