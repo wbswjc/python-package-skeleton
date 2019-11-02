@@ -1,0 +1,34 @@
+# Translations
+*.mo
+
+# Editor temporaries
+*~
+*.db
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+# Packages
+.cache
+*.egg
+*.egg-info
+dist
+*build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+
+# IDE
+/.idea
+
+# Virtualenv
+/env
+/venv
+
+# Installer logs
+pip-log.txt
