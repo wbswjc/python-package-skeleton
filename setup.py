@@ -58,7 +58,26 @@ def get_package_info() -> dict:
         return json.load(f)
 
 
+def check_version_consistency(name, version):
+    """Check version consistency between changelog and source file."""
+    if os.path.isfile(name):
+        main_file = name
+    elif os.path.isdir(name):
+        main_file = os.path.join(name, '__init__.py')
+    else:
+        raise FileNotFoundError('"{}" not exists.'.format(name))
+
+    with open(main_file) as f:
+        for line in f:
+            match = re.search("^version = '{}'.*$".format(version),
+                              line.strip())
+            if match:
+                return
+    raise LookupError('Version {} not set in {}'.format(version, main_file))
+
+
 def get_attrs() -> dict:
+    """Get attrs for setuptools.setup(**attrs)."""
     default_attrs = {
         'version': get_version(),
         'license': 'MIT',
@@ -73,7 +92,11 @@ def get_attrs() -> dict:
         'zip_safe': False,
     }
 
-    return {**default_attrs, **get_package_info()}
+    attrs = {**default_attrs, **get_package_info()}
+
+    check_version_consistency(attrs.get('name'), attrs.get('version'))
+
+    return attrs
 
 
 setuptools.setup(**get_attrs())
