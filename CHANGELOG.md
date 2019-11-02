@@ -8,11 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.0.2] - 2019-11-03
+
+### Added
+
+- Add release script.
+
 ## [0.0.1] - 2019-11-02
 
 ### Added
 
 - It's a whole new project!
-
-[Unreleased]: https://github.com/wbswjc/python-package-skeleton/compare/v1.0.0...HEAD
-[0.0.1]: https://github.com/wbswjc/python-package-skeleton/releases/tag/v0.0.1
