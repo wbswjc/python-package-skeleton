@@ -5,10 +5,8 @@ from subprocess import Popen
 
 root = os.path.abspath(os.path.join(__file__, '../..'))
 
-venv_dir = 'venv'
-requirements_file = 'requirements.txt'
-test_requirements_file = 'requirements-test.txt'
+venv_path = os.path.join(root, 'venv')
 
-Popen([os.path.join(root, venv_dir, 'bin', 'pip'), 'install',
-       '-r', os.path.join(root, requirements_file),
-       '-r', os.path.join(root, test_requirements_file)]).wait()
+Popen([os.path.join(venv_path, 'bin', 'pip'), 'install',
+       '-r', os.path.join(root, 'requirements.txt'),
+       '-r', os.path.join(root, 'requirements-test.txt')]).wait()

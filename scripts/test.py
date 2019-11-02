@@ -5,7 +5,7 @@ from subprocess import Popen
 
 root = os.path.abspath(os.path.join(__file__, '../..'))
 
-venv_dir = 'venv'
-venv_path = os.path.join(root, venv_dir)
+venv_path = os.path.join(root, 'venv')
 
-Popen([os.path.join(venv_path, 'bin', 'pytest'), '--cov', 'skeleton']).wait()
+Popen([os.path.join(venv_path, 'bin', 'pytest'),
+       '--cov', os.path.join(root, 'skeleton')]).wait()
