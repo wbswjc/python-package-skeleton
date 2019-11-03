@@ -3,7 +3,7 @@
 import os
 from subprocess import Popen
 
-root = os.path.abspath(os.path.join(__file__, '../..'))
+root = os.path.abspath(os.path.join(__file__, '..', '..'))
 
 venv_path = os.path.join(root, 'venv')
 
