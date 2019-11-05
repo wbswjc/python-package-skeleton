@@ -1,18 +1,13 @@
 #!python
-
 import os
 import re
 from typing import Dict
 
-scripts_dir = 'scripts'
-venv_dir = 'venv'
-requirements_file = 'requirements.txt'
-test_requirements_file = 'requirements-test.txt'
-package_json_file = 'package.json'
+import package
 
-help_command_id = 'help'
+scripts_dir = package.get_package_info('scripts_dir')
 
-root_path = os.path.dirname(os.path.abspath(__file__))
+scripts_path = package.resource_path(scripts_dir)
 
 
 class Command:
@@ -68,10 +63,9 @@ def get_commands_map() -> Dict[str, Command]:
     commands = {}
 
     scripts_module = __import__(scripts_dir)
-    for filename in os.listdir(os.path.join(root_path, scripts_dir)):
+    for filename in os.listdir(scripts_path):
         match = re.match('^(.*).py$', filename)
-        if match and os.path.isfile(os.path.join(root_path,
-                                                 scripts_dir, filename)):
+        if match and os.path.isfile(os.path.join(scripts_path, filename)):
             name = match.group(1)
             try:
                 __import__('{}.{}'.format(scripts_dir, name))
@@ -80,16 +74,16 @@ def get_commands_map() -> Dict[str, Command]:
                 description = module.__doc__.replace('\n', '\\n')
                 commands[name] = Command(exec, description)
             except Exception as e:
-                print('Module "{}.{}" import failed: {}'.format(scripts_dir,
-                                                                name, e))
+                print('Module "{}.{}" import failed: {}'.format(
+                    scripts_dir, name, e))
 
     return commands
 
 
-def main(*args, **kwargs) -> None:
+def main(*args) -> None:
     commands_map = get_commands_map()
     help_command = make_help_command(commands_map)
-    commands_map[help_command_id] = help_command
+    commands_map['help'] = help_command
 
     if not args:
         print('What do you want to do?\n')
@@ -109,7 +103,7 @@ def main(*args, **kwargs) -> None:
         return
 
     try:
-        commands_map[command_id].exec(args[1:], **kwargs)
+        commands_map[command_id].exec(package.get_package_info, args[1:])
     except Exception as e:
         if '--debug' in args:
             raise e
@@ -119,10 +113,4 @@ def main(*args, **kwargs) -> None:
 if __name__ == '__main__':
     import sys
 
-    main(*sys.argv[1:],
-         scripts_dir=scripts_dir,
-         venv_dir=venv_dir,
-         requirements_file=requirements_file,
-         test_requirements_file=test_requirements_file,
-         package_json_file=package_json_file,
-         root_path=root_path)
+    main(*sys.argv[1:])

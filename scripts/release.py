@@ -1,7 +1,7 @@
 """Build dist with wheel and upload to pypi if '--upload' is appeared."""
 
 
-def main(*args, **kwargs):
+def main(g: callable, *args, **kwargs):
     from subprocess import Popen
 
     Popen(['python', 'setup.py', 'sdist', 'bdist_wheel']).wait()

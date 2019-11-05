@@ -2,13 +2,11 @@
  (not including test requirements)."""
 
 
-def main(*args, **kwargs):
+def main(g: callable, *args, **kwargs):
     import os
     from subprocess import Popen
 
-    root_path = kwargs.get('root_path')
-    venv_dir = kwargs.get('venv_dir')
-    requirements_file = kwargs.get('requirements_file')
+    root_path = g('root_path')
 
-    Popen([os.path.join(root_path, venv_dir, 'bin', 'pip'), 'install',
-           '-r', os.path.join(root_path, requirements_file)]).wait()
+    Popen([os.path.join(root_path, g('venv_dir'), 'bin', 'pip'), 'install',
+           '-r', os.path.join(root_path, g('requirements_file'))]).wait()

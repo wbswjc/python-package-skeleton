@@ -1,19 +1,13 @@
 """Run pytest in virtual environment."""
 
 
-def main(*args, **kwargs):
+def main(g: callable, *args, **kwargs):
     import os
     from subprocess import Popen
 
-    root = os.path.abspath(os.path.join(__file__, '..', '..'))
+    root_path = g('root_path')
 
-    venv_path = os.path.join(root, 'venv')
-
-    Popen([os.path.join(venv_path, 'bin', 'pytest'),
-           '--cov', os.path.join(root, 'skeleton'),
+    Popen([os.path.join(root_path, g('venv_dir'), 'bin', 'pytest'),
+           '--cov', os.path.join(root_path, g('name')),
            '--cov-report', 'term-missing',
-           os.path.join(root, 'tests')]).wait()
-
-
-if __name__ == '__main__':
-    main()
+           os.path.join(root_path, g('tests_dir'))]).wait()
