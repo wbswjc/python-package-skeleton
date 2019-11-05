@@ -1,11 +1,14 @@
-#!python
+"""Install requirements in virtual environment
+ (not including test requirements)."""
 
-import os
-from subprocess import Popen
 
-root = os.path.abspath(os.path.join(__file__, '..', '..'))
+def main(*args, **kwargs):
+    import os
+    from subprocess import Popen
 
-venv_path = os.path.join(root, 'venv')
+    root_path = kwargs.get('root_path')
+    venv_dir = kwargs.get('venv_dir')
+    requirements_file = kwargs.get('requirements_file')
 
-Popen([os.path.join(venv_path, 'bin', 'pip'), 'install',
-       '-r', os.path.join(root, 'requirements.txt')]).wait()
+    Popen([os.path.join(root_path, venv_dir, 'bin', 'pip'), 'install',
+           '-r', os.path.join(root_path, requirements_file)]).wait()

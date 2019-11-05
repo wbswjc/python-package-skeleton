@@ -1,8 +1,10 @@
-#!python
-import sys
-from subprocess import Popen
+"""Build dist with wheel and upload to pypi if '--upload' is appeared."""
 
-Popen(['python', 'setup.py', 'sdist', 'bdist_wheel']).wait()
 
-if len(sys.argv) > 1 and sys.argv[1] == '--upload':
-    Popen(['python', '-m', 'twine', 'upload', 'dist/*']).wait()
+def main(*args, **kwargs):
+    from subprocess import Popen
+
+    Popen(['python', 'setup.py', 'sdist', 'bdist_wheel']).wait()
+
+    if '--upload' in args:
+        Popen(['python', '-m', 'twine', 'upload', 'dist/*']).wait()
