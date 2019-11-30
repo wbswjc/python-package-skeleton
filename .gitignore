@@ -5,26 +5,8 @@
 *~
 *.db
 
-# Cache
-__pycache__
-
-# Unit test / coverage reports
-.coverage
-.tox
-
-# Packages
-.cache
-*.egg
-*.egg-info
-dist
-*build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
+# OS
+.DS_Store
 
 # IDE
 /.idea
@@ -33,5 +15,22 @@ develop-eggs
 /env
 /venv
 
-# Installer logs
-pip-log.txt
+# Cache
+.cache
+__pycache__
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+# Packages
+*.egg
+*.egg-info
+*build
+
+bin
+dist
+eggs
+parts
+sdist
+var
