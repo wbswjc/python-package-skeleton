@@ -1,4 +1,4 @@
-#!python
+#!python3
 import os
 import re
 from typing import Dict
