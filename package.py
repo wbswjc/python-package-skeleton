@@ -29,6 +29,7 @@ default_package_info = {
     'scripts_dir': 'scripts',
     'setup_json_file': setup_json_file,
     'test_requirements_file': 'requirements-test.txt',
+    'dev_requirements_file': 'requirements-dev.txt',
     'tests_dir': 'tests',
     'venv_dir': 'venv',
 }
