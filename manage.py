@@ -5,7 +5,7 @@ from typing import Dict
 
 import package
 
-scripts_dir = package.get_package_info('scripts_dir')
+scripts_dir = package.PackageInfo().get('scripts_dir')
 
 scripts_path = package.resource_path(scripts_dir)
 
@@ -103,7 +103,7 @@ def main(*args) -> None:
         return
 
     try:
-        commands_map[command_id].exec(package.get_package_info, args[1:])
+        commands_map[command_id].exec(package.PackageInfo(), args[1:])
     except Exception as e:
         if '--debug' in args:
             raise e
