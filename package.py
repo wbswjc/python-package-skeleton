@@ -26,7 +26,7 @@ default_package_info = {
     'readme_file': 'README.md',
     'requirements_file': 'requirements.txt',
     'root_path': root_path,
-    'scripts_dir': 'scripts',
+    'commands_dir': 'commands',
     'setup_json_file': setup_json_file,
     'test_requirements_file': 'requirements-test.txt',
     'repo_requirements_file': 'requirements-repo.txt',

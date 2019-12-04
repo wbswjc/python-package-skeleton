@@ -5,9 +5,9 @@ from typing import Dict
 
 import package
 
-scripts_dir = package.PackageInfo().get('scripts_dir')
+commands_dir = package.PackageInfo().get('commands_dir')
 
-scripts_path = package.resource_path(scripts_dir)
+scripts_path = package.resource_path(commands_dir)
 
 
 class Command:
@@ -62,20 +62,20 @@ def get_commands_map() -> Dict[str, Command]:
     """Get all available commands."""
     commands = {}
 
-    scripts_module = __import__(scripts_dir)
+    scripts_module = __import__(commands_dir)
     for filename in os.listdir(scripts_path):
         match = re.match('^(.*).py$', filename)
         if match and os.path.isfile(os.path.join(scripts_path, filename)):
             name = match.group(1)
             try:
-                __import__('{}.{}'.format(scripts_dir, name))
+                __import__('{}.{}'.format(commands_dir, name))
                 module = getattr(scripts_module, name)
                 exec = module.main
                 description = module.__doc__.replace('\n', '\\n')
                 commands[name] = Command(exec, description)
             except Exception as e:
                 print('Module "{}.{}" import failed: {}'.format(
-                    scripts_dir, name, e))
+                    commands_dir, name, e))
 
     return commands
 
@@ -93,7 +93,7 @@ def main(*args) -> None:
     command_id = args[0]
 
     # Allow usage like './manage.py scripts/command_id.py'
-    match = re.match('{}/(.*)\.py'.format(scripts_dir), command_id)
+    match = re.match('{}/(.*)\.py'.format(commands_dir), command_id)
     if match:
         command_id = match.group(1)
 
