@@ -19,6 +19,10 @@
 .cache
 __pycache__
 
+# Temp
+tmp
+temp
+
 # Unit test / coverage reports
 .coverage
 .tox
