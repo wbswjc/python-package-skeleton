@@ -9,7 +9,7 @@ def main(package_info: package.PackageInfo, *args, **kwargs):
     venv_path = package_info.get_resource_path('venv_dir')
 
     if os.path.isdir(venv_path):
-        raise FileExistsError('"{}" is a directory.'.format(venv_path))
+        return FileExistsError('"{}" is a directory.'.format(venv_path))
 
     Popen(['python', '-m', 'venv', venv_path]).wait()
 

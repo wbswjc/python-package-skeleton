@@ -1,5 +1,4 @@
-"""Install requirements in virtual environment
- (not including test requirements)."""
+"""Install requirements in virtual environment"""
 import package
 
 

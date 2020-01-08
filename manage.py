@@ -11,16 +11,16 @@ scripts_path = package.resource_path(commands_dir)
 
 
 class Command:
-    def __init__(self, exec: callable, description: str):
-        self.exec = exec
+    def __init__(self, func: callable, description: str):
+        # a function receives package_info and *args, **kwargs,
+        # returns error if occurs
+        self.func = func
         self.description = description
 
 
 def print_commands_map(m: Dict[str, Command]):
     """Print commands map"""
     import shutil
-
-    print('Available commands:\n')
 
     max_name_length = 5
     for key in m:
@@ -53,6 +53,7 @@ def make_help_command(commands_map: Dict[str, Command]) -> Command:
     commands map was initialized"""
 
     def help_command(*args, **kwargs):
+        print('Available commands:\n')
         print_commands_map(commands_map)
 
     return Command(help_command, 'List all available commands.')
@@ -70,9 +71,9 @@ def get_commands_map() -> Dict[str, Command]:
             try:
                 __import__('{}.{}'.format(commands_dir, name))
                 module = getattr(scripts_module, name)
-                exec = module.main
+                func = module.main
                 description = module.__doc__.replace('\n', '\\n')
-                commands[name] = Command(exec, description)
+                commands[name] = Command(func, description)
             except Exception as e:
                 print('Module "{}.{}" import failed: {}'.format(
                     commands_dir, name, e))
@@ -90,24 +91,39 @@ def main(*args) -> None:
         print_commands_map(commands_map)
         return
 
-    command_id = args[0]
+    command_key = args[0]
 
     # Allow usage like './manage.py scripts/command_id.py'
-    match = re.match('{}/(.*)\.py'.format(commands_dir), command_id)
+    match = re.match('{}/(.*)\.py'.format(commands_dir), command_key)
     if match:
-        command_id = match.group(1)
+        command_key = match.group(1)
 
-    if command_id not in commands_map:
-        print('Command "{}" not exists.\n'.format(command_id))
+    if command_key in commands_map:
+        err = commands_map[command_key].func(package.PackageInfo(), args[1:])
+        if err is not None:
+            print('Error: {}'.format(err))
+        return
+
+    candidates = {}
+    for k in commands_map:
+        if k.startswith(command_key):
+            candidates[k] = commands_map[k]
+
+    if len(candidates) == 0:
+        print('Command "{}" not found.\n'.format(command_key))
+        print('Available commands:\n')
         print_commands_map(commands_map)
         return
 
-    try:
-        commands_map[command_id].exec(package.PackageInfo(), args[1:])
-    except Exception as e:
-        if '--debug' in args:
-            raise e
-        print(e)
+    if len(candidates) == 1:
+        for k in candidates:
+            err = candidates[k].func(package.PackageInfo(), args[1:])
+            if err is not None:
+                print('Error: {}'.format(err))
+            return
+
+    print('Multiple candidates, can\'t decide:\n')
+    print_commands_map(candidates)
 
 
 if __name__ == '__main__':

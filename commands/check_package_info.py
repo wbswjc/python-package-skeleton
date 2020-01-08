@@ -1,4 +1,4 @@
-"""Create virtual environment in specific path."""
+"""Check package info and setup info."""
 import package
 
 

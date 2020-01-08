@@ -15,7 +15,6 @@ default_setup_info = {
     'license': 'MIT',
     'author': 'wbswjc',
     'author_email': 'me@wbswjc.com',
-    'long_description_content_type': 'text/markdown',
     'include_package_data': True,
     'zip_safe': False,
 }
@@ -28,7 +27,6 @@ default_package_info = {
     'root_path': root_path,
     'commands_dir': 'commands',
     'setup_json_file': setup_json_file,
-    'test_requirements_file': 'requirements-test.txt',
     'repo_requirements_file': 'requirements-repo.txt',
     'tests_dir': 'tests',
     'venv_dir': 'venv',
@@ -104,14 +102,6 @@ class PackageInfo:
     def get_requirements(self) -> List[str]:
         """Get package requirements."""
         path = resource_path(self.get('requirements_file'))
-        if not os.path.isfile(path):
-            return []
-        with open(path) as f:
-            return f.read().splitlines()
-
-    def get_test_requirements(self) -> List[str]:
-        """Get package test requirements."""
-        path = resource_path(self.get('test_requirements_file'))
         if not os.path.isfile(path):
             return []
         with open(path) as f:

@@ -17,7 +17,7 @@ Activate virtual environment:
 ## Install requirements
 
 ```sh
-./scripts/install_test_requirements.py
+./scripts/install_requirements.py
 ```
 
 ## Unit test
